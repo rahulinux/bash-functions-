@@ -6,5 +6,9 @@ CommentAppend() {
         local InputFile="$3"
 
 
-        sed -i "s/${comment}/#${comment}/g ; s/#${comment}/& \n${append}/" $InputFile
+        sed -i "s/^${comment}/#${comment}/g" $InputFile
+        # if string does not exists in input file then add
+        if ! grep  "${append}" $InputFile >/dev/null 2>&1; then
+                sed -i "s/#${comment}/& \n${append}/" $InputFile
+        fi
 }
